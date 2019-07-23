@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.system.mapper.SysJobMapper">
+  <resultMap id="BaseResultMap" type="com.demo.system.pojo.SysJob">
+    <id column="job_id" jdbcType="INTEGER" property="jobId" />
+    <id column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <id column="job_group" jdbcType="VARCHAR" property="jobGroup" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="method_params" jdbcType="VARCHAR" property="methodParams" />
+    <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression" />
+    <result column="misfire_policy" jdbcType="VARCHAR" property="misfirePolicy" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    job_id, job_name, job_group, method_name, method_params, cron_expression, misfire_policy, 
+    status, create_by, create_time, update_by, update_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_job
+    where job_id = #{jobId,jdbcType=INTEGER}
+      and job_name = #{jobName,jdbcType=VARCHAR}
+      and job_group = #{jobGroup,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from sys_job
+    where job_id = #{jobId,jdbcType=INTEGER}
+      and job_name = #{jobName,jdbcType=VARCHAR}
+      and job_group = #{jobGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.demo.system.pojo.SysJob">
+    insert into sys_job (job_id, job_name, job_group, 
+      method_name, method_params, cron_expression, 
+      misfire_policy, status, create_by, 
+      create_time, update_by, update_time, 
+      remark)
+    values (#{jobId,jdbcType=INTEGER}, #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{methodName,jdbcType=VARCHAR}, #{methodParams,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, 
+      #{misfirePolicy,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.system.pojo.SysJob">
+    insert into sys_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        job_id,
+      </if>
+      <if test="jobName != null">
+        job_name,
+      </if>
+      <if test="jobGroup != null">
+        job_group,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+      <if test="methodParams != null">
+        method_params,
+      </if>
+      <if test="cronExpression != null">
+        cron_expression,
+      </if>
+      <if test="misfirePolicy != null">
+        misfire_policy,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null">
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodParams != null">
+        #{methodParams,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null">
+        #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="misfirePolicy != null">
+        #{misfirePolicy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.system.pojo.SysJob">
+    update sys_job
+    <set>
+      <if test="methodName != null">
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodParams != null">
+        method_params = #{methodParams,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null">
+        cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="misfirePolicy != null">
+        misfire_policy = #{misfirePolicy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where job_id = #{jobId,jdbcType=INTEGER}
+      and job_name = #{jobName,jdbcType=VARCHAR}
+      and job_group = #{jobGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.system.pojo.SysJob">
+    update sys_job
+    set method_name = #{methodName,jdbcType=VARCHAR},
+      method_params = #{methodParams,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      misfire_policy = #{misfirePolicy,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where job_id = #{jobId,jdbcType=INTEGER}
+      and job_name = #{jobName,jdbcType=VARCHAR}
+      and job_group = #{jobGroup,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
