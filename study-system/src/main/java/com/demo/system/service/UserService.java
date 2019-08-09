@@ -1,8 +1,11 @@
 package com.demo.system.service;
 
 import com.demo.system.pojo.SysUser;
+import org.springframework.data.redis.core.ZSetOperations;
 
 import java.util.List;
+import java.util.Set;
+
 /**
  * 用户 业务层
  *
@@ -155,4 +158,16 @@ public interface UserService {
      * @return 结果
      */
     public int changeStatus(SysUser user);
+
+    public boolean rankAdd(String uid, Integer score);
+
+    public Double increSocre(String uid, Integer score);
+
+    public Long rankNum(String uid);
+
+    public Long score(String uid);
+
+    public Set<ZSetOperations.TypedTuple<Object>> rankWithScore(Integer start, Integer end);
+
+    public Set<ZSetOperations.TypedTuple<Object>> reverseZRankWithScore(Integer start, Integer end);
 }

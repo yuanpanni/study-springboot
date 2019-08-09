@@ -1,22 +1,30 @@
 package com.demo.system.service.imp;
 
 import com.demo.common.CacheUtils;
+import com.demo.common.RedisService;
 import com.demo.system.mapper.SysUserMapper;
 import com.demo.system.pojo.SysUser;
 import com.demo.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImp implements UserService {
 
-    public static final String CACHE_USER_LIST = "userList";
+    private static final String CACHE_USER_LIST = "userList";
+    private static final String RANKGNAME = "user_score";
+    private static final String SALESCORE = "sale_score_rank:";
 
     //@Autowired
     private SysUserMapper userMapper;
+
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public List<SysUser> selectUserList(SysUser user) {
@@ -120,4 +128,39 @@ public class UserServiceImp implements UserService {
     public int changeStatus(SysUser user) {
         return 0;
     }
+
+    @Override
+    public boolean rankAdd(String uid, Integer score) {
+        return redisService.zAdd(RANKGNAME, uid, score);
+    }
+
+    @Override
+    public Double increSocre(String uid, Integer score) {
+        return redisService.incrementScore(RANKGNAME, uid, score);
+    }
+
+    @Override
+    public Long rankNum(String uid) {
+        return redisService.zRank(RANKGNAME,uid);
+    }
+
+    @Override
+    public Long score(String uid) {
+        return redisService.zSetScore(RANKGNAME,uid).longValue();
+    }
+
+    @Override
+    public Set<ZSetOperations.TypedTuple<Object>> rankWithScore(Integer start, Integer end) {
+        //return redisService.reverseZRankWithScore(RANKGNAME,start,end);
+
+        return redisService.zRankWithScore(RANKGNAME,start,end);
+
+    }
+
+    @Override
+    public Set<ZSetOperations.TypedTuple<Object>> reverseZRankWithScore(Integer start, Integer end) {
+        return redisService.reverseZRankWithRank(RANKGNAME,start,end);
+    }
+
+
 }

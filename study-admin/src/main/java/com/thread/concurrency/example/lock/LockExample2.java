@@ -1,24 +1,25 @@
-package com.thread.concurrency;
+package com.thread.concurrency.example.lock;
 
+import com.thread.concurrency.annoations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
-public class ConcurrencyTest {
-
-    public static int clientTotal=1000;
+@ThreadSafe
+public class LockExample2 {
+    public static int clientTotal=5000;
 
     public static int threadTotal=200;
 
-    //public static int count=0;
-    public static AtomicInteger count=new AtomicInteger(0);
+    public static int count=0;
 
+    private final static Lock lock=new ReentrantLock();
 
     public static void main(String[] args) throws InterruptedException {
         //线程池
@@ -49,7 +50,12 @@ public class ConcurrencyTest {
     }
 
     private static void add() {
-        //count++;
-        count.incrementAndGet();
+        lock.lock();
+        try{
+            count++;
+        }finally {
+            lock.unlock();
+        }
+
     }
 }

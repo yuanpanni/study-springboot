@@ -1,23 +1,21 @@
-package com.thread.concurrency;
+package com.thread.concurrency.example.count;
 
+import com.thread.concurrency.annoations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 @Slf4j
-public class ConcurrencyTest {
-
-    public static int clientTotal=1000;
+@ThreadSafe
+public class CountExample3 {
+    public static int clientTotal=5000;
 
     public static int threadTotal=200;
 
-    //public static int count=0;
-    public static AtomicInteger count=new AtomicInteger(0);
+    public static int count=0;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -48,8 +46,7 @@ public class ConcurrencyTest {
 
     }
 
-    private static void add() {
-        //count++;
-        count.incrementAndGet();
+    private synchronized static void add() {
+        count++;
     }
 }
